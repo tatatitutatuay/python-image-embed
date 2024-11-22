@@ -3,9 +3,8 @@ import os
 
 app = Flask(__name__)
 
-# Directory to save received images
-UPLOAD_FOLDER = 'received_images'
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)  # Create folder if it doesn't exist
+UPLOAD_FOLDER = os.path.join(os.getcwd(), 'received_images')
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 @app.route('/upload', methods=['POST'])
 def upload_image():
@@ -27,6 +26,7 @@ def upload_image():
 # Route to serve the saved image
 @app.route('/image/<filename>', methods=['GET'])
 def get_image(filename):
+    print(f"Sending image {filename}")
     return send_from_directory(UPLOAD_FOLDER, filename)
 
 if __name__ == '__main__':
